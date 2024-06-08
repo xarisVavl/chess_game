@@ -35,18 +35,18 @@ document.querySelector('.js-chessboard').innerHTML=html;
 }
 
 
-function placePawn(position,piece) {
+function placePiece(position,piece) {
   
-      document.getElementById(1 +position).innerHTML=` <img src="../images/svg/w${piece}.svg" alt="" srcset="">`
-      document.getElementById(8 +position).innerHTML=` <img src="../images/svg/b${piece}.svg" alt="" srcset="">`
+      document.getElementById(1 +position).innerHTML=` <img src="../images/svg/w${piece}.svg" alt="" srcset="" class="chess-piece" draggable="true">`
+      document.getElementById(8 +position).innerHTML=` <img src="../images/svg/b${piece}.svg" alt="" srcset="" class="chess-piece" draggable="true">`
 
 
 
 
 
       for(let i=1; i<9 ; i++) {
-            document.getElementById(`${'2'+i}`).innerHTML=` <img src="../images/svg/wp.svg" alt="" srcset="" >`  
-            document.getElementById(`${'7'+i}`).innerHTML=` <img src="../images/svg/bp.svg" alt="" srcset="">`  
+            document.getElementById(`${'2'+i}`).innerHTML=` <img src="../images/svg/wp.svg" alt="" srcset="" class="chess-piece" draggable="true">`  
+            document.getElementById(`${'7'+i}`).innerHTML=` <img src="../images/svg/bp.svg" alt="" srcset="" class="chess-piece" draggable="true">`  
       }
 }
 
@@ -54,18 +54,24 @@ generateBoard();
 
 
 
-placePawn('1','r');
-placePawn('8','r');
-placePawn('2','n');
-placePawn('7','n');
-placePawn('3','b');
-placePawn('6','b');
-placePawn('4','q');
-placePawn('5','k');
+placePiece('1','r');
+placePiece('8','r');
+placePiece('2','n');
+placePiece('7','n');
+placePiece('3','b');
+placePiece('6','b');
+placePiece('4','q');
+placePiece('5','k');
 
 
 
+document.querySelectorAll('.chess-piece').forEach((piece)=> {
+      piece.addEventListener('drag', (event) => {
+         
+            console.log(event);
+      })
 
+})
 
 
 
