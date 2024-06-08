@@ -1,6 +1,6 @@
 
 
-const pieceList=  [
+ export const pieceList=  [
 {
   type: "king",
   color: "black",

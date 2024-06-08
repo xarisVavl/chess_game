@@ -1,4 +1,4 @@
-
+import { pieceList } from "./pieces.js";
 function generateBoard() {
 let html='';
 
@@ -75,3 +75,6 @@ document.querySelectorAll('.chess-piece').forEach((piece)=> {
 
 
 
+pieceList.forEach((piece) => {
+    console.log(piece.type);
+})
