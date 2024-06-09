@@ -41,9 +41,9 @@ export function generateBoard() {
   board.forEach((cell) => {
 
     pieceList.forEach((piece) => {
-          piece.position.forEach((index)=> {
+          piece.initialPosition.forEach((index)=> {
                 if(Number(cell.position) === index) {
-                      document.getElementById(index).innerHTML=`<img src="${piece.image}" alt="" srcset="" class="chess-piece" draggable="true">`
+                      document.getElementById(index).innerHTML=`<img src="${piece.image}" alt="" srcset="" class="chess-piece" draggable="true" data-id ="${piece.type}">`
                 }
           });
           })
