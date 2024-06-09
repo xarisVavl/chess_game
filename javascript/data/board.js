@@ -1,3 +1,5 @@
+import { pieceList } from "./pieces.js";
+
 export const board = []
 
 
@@ -30,8 +32,25 @@ export function generateBoard() {
               </div>`;
             }
         
-  
+            
   })
   return html;
   }
+
+  export function generatePieces() {
+  board.forEach((cell) => {
+
+    pieceList.forEach((piece) => {
+          piece.position.forEach((index)=> {
+                if(Number(cell.position) === index) {
+                      document.getElementById(index).innerHTML=`<img src="${piece.image}" alt="" srcset="" class="chess-piece" draggable="true">`
+                }
+          });
+          })
+
+
+
+})
+
+}
 
