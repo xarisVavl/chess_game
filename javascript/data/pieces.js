@@ -1,5 +1,5 @@
 
-
+import {board ,isCellEmpty} from "./board.js"
  export const pieceList=  [
 {
   type: "black-king",
@@ -206,5 +206,65 @@
 
 ]
 
+
+
+export function MovePiece () {
+
+  let elementBeingDragged;
+
+
+  document.querySelectorAll('.js-cell').forEach((cell)=> {
+  
+        cell.addEventListener("dragover",((event) => {
+              event.preventDefault();
+      
+        }));
+  
+  
+        cell.addEventListener("drop",((event) => {
+            let end = event.target.id;
+            let start =elementBeingDragged.dataset.piecePosition;
+              event.preventDefault(); 
+  
+  
+  
+  pieceList.forEach((piece) => {
+        if(piece.type === elementBeingDragged.dataset.type) {
+             if ( piece.move(start,end) && isCellEmpty(end)) {
+         
+        event.target.append(elementBeingDragged);
+        elementBeingDragged.dataset.piecePosition=event.target.id;
+        console.log('drop allowed here' +event.target.id);
+             }
+     
+        }
+  })
+        
+  
+  
+         
+        }));
+  
+     
+  
+  })
+  
+  
+  
+  
+ 
+  
+  document.querySelectorAll('.chess-piece').forEach((piece)=> {
+        
+  
+        piece.addEventListener('dragstart', ((event) => {
+              elementBeingDragged = event.target;
+              console.log('dragging has started on ' + elementBeingDragged.dataset.piecePosition);
+        }))
+  
+  })
+  
+  
+   }
 
 

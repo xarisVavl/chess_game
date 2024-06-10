@@ -43,7 +43,7 @@ export function generateBoard() {
     pieceList.forEach((piece) => {
           piece.initialPosition.forEach((index)=> {
                 if(Number(cell.position) === index) {
-                      document.getElementById(index).innerHTML=`<img src="${piece.image}"  class="chess-piece" draggable="true" data-position = "${index} "data-id ="${piece.type}">`
+                      document.getElementById(cell.position).innerHTML=`<img src="${piece.image}"  class="chess-piece" draggable="true" data-piece-position = "${index} "data-type ="${piece.type}">`
                 }
           });
           })
@@ -56,11 +56,33 @@ export function generateBoard() {
 
 
  export function isCellEmpty (id) {
-
+if (document.getElementById(id)) {
  if (document.getElementById(id).querySelector('.chess-piece')) {
-return true;
+return false;
+ }
+ else {
+
+  return true;
  }
 
-  return false;
 }
+else return false ;
+ }
 
+//  console.log(document.getElementById(id).querySelector('.chess-piece'))
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
