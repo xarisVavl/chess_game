@@ -34,22 +34,38 @@ document.querySelectorAll('.js-cell').forEach((cell)=> {
 
       cell.addEventListener("dragover",((event) => {
             event.preventDefault();
-            console.log("you are draging over " + event.target.id);
+            event.target.id;
       }));
-      cell.addEventListener("dragenter",((event) => {
-            console.log("you are entering somethhing over " + event.target.id); 
-      }));
-      cell.addEventListener("dragleave",((event) => {
-            console.log("you are leaving somethhing over " + event.target.id); 
-      }));
+
+
       cell.addEventListener("drop",((event) => {
-            event.target.append(elementBeingDragged);
-      }));
-      cell.addEventListener("dragend",((event) => {
-            console.log("the drag ended in  " + event.target.id); 
-      }));
+          let end = event.target.id;
+          let start =elementBeingDragged.dataset.position;
+            event.preventDefault(); 
 
 
+
+pieceList.forEach((piece) => {
+      if(piece.type === elementBeingDragged.dataset.id) {
+           if ( piece.move(start,end)) {
+      event.target.append(elementBeingDragged);
+      elementBeingDragged.dataset.position=event.target.id;
+      console.log('drop allowed here' +event.target.id);
+           }
+
+           
+      }
+})
+      
+
+
+  
+//    }
+
+       
+      }));
+
+   
 
 })
 
@@ -63,7 +79,7 @@ document.querySelectorAll('.chess-piece').forEach((piece)=> {
 
       piece.addEventListener('dragstart', ((event) => {
             elementBeingDragged = event.target;
-            console.log('dragging has started on ' + elementBeingDragged.dataset.id);
+            console.log('dragging has started on ' + elementBeingDragged.dataset.position);
       }))
 
 })

@@ -21,14 +21,14 @@ export function generateBoard() {
              if ((cell.row + cell.collumn)% 2 ===0 ) { 
               html+= ` <div class="cell js-cell cell-black" 
               id= ${cell.position}>
-            ${cell.position}
+            
            </div>`;
             }
         
         else {
               html+= ` <div class="cell js-cell" 
               id= ${cell.position}>
-              ${cell.position}
+             
               </div>`;
             }
         
@@ -43,7 +43,7 @@ export function generateBoard() {
     pieceList.forEach((piece) => {
           piece.initialPosition.forEach((index)=> {
                 if(Number(cell.position) === index) {
-                      document.getElementById(index).innerHTML=`<img src="${piece.image}" alt="" srcset="" class="chess-piece" draggable="true" data-id ="${piece.type}">`
+                      document.getElementById(index).innerHTML=`<img src="${piece.image}"  class="chess-piece" draggable="true" data-position = "${index} "data-id ="${piece.type}">`
                 }
           });
           })
