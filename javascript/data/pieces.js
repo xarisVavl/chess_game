@@ -1,5 +1,5 @@
 
-import {board ,isCellEmpty} from "./board.js"
+import {board } from "./board.js"
  export const pieceList=  [
 {
   type: "black-king",
@@ -207,37 +207,49 @@ import {board ,isCellEmpty} from "./board.js"
 ]
 
 
+let elementBeingDragged;
 
 export function MovePiece () {
+  const squares= document.querySelectorAll('.js-cell');
 
-  let elementBeingDragged;
 
 
-  document.querySelectorAll('.js-cell').forEach((cell)=> {
+  document.querySelectorAll('.chess-piece').forEach((piece)=> {
+        
   
-        cell.addEventListener("dragover",((event) => {
-              event.preventDefault();
-      
-        }));
+    piece.addEventListener('dragstart', dragStart);
+
+})
+
+squares.forEach((cell)=> {
   
+        cell.addEventListener("dragover", dragOver);
+       
+        cell.addEventListener("dragleave",dragLeave);
+        
+        // cell.addEventListener("dragenter",dragEnter);
+        
+        cell.addEventListener("dragend",dragEnd);
   
         cell.addEventListener("drop",((event) => {
             let end = event.target.id;
             let start =elementBeingDragged.dataset.piecePosition;
               event.preventDefault(); 
   
-  
+             
   
   pieceList.forEach((piece) => {
-        if(piece.type === elementBeingDragged.dataset.type) {
-             if ( piece.move(start,end) && isCellEmpty(end)) {
-         
-        event.target.append(elementBeingDragged);
-        elementBeingDragged.dataset.piecePosition=event.target.id;
-        console.log('drop allowed here' +event.target.id);
-             }
-     
+        if(piece.type === elementBeingDragged.dataset.pieceType) {
+              if ( piece.move(start,end) ) {
+                event.target.classList.add("highlight2");
+                 event.target.append(elementBeingDragged);
+                elementBeingDragged.dataset.piecePosition=event.target.id;
+                console.log('drop allowed here' +event.target.id);
+                   
+              }
+             else  event.target.classList.add("highlight");;
         }
+        
   })
         
   
@@ -254,17 +266,44 @@ export function MovePiece () {
   
  
   
-  document.querySelectorAll('.chess-piece').forEach((piece)=> {
-        
   
-        piece.addEventListener('dragstart', ((event) => {
-              elementBeingDragged = event.target;
-              console.log('dragging has started on ' + elementBeingDragged.dataset.piecePosition);
-        }))
-  
-  })
   
   
    }
 
 
+
+  function dragStart(event) {
+    elementBeingDragged = event.target;
+    console.log('dragging has started with ' + elementBeingDragged.dataset.pieceType);
+  }
+
+
+  function dragOver(event) {
+    event.preventDefault();
+     console.log("you are draging something over " +event.target.id + " cell");
+  }
+
+
+  function dragEnter (event) {
+  
+    event.target.classList.add("highlight");
+    console.log("you are entering the space of " +event.target.id + " cell");
+  }
+
+  function dragLeave (event) {
+    console.log("you are leaving the space of " +event.target.id + " cell");
+ 
+
+  }
+
+
+
+
+  function dragEnd (event) {
+    console.log("The drag has ended in " +event.target.id + " cell");
+    event.target.classList.remove("highlight");
+    event.target.classList.remove("highlight2");
+  }
+
+  

@@ -1,5 +1,5 @@
 import { pieceList, MovePiece } from "../data/pieces.js";
-import {board, generateBoard, generatePieces, isCellEmpty} from "../data/board.js";
+import {board, generateBoard, generatePieces} from "../data/board.js";
 
 
 
