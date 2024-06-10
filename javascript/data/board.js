@@ -54,3 +54,13 @@ export function generateBoard() {
 
 }
 
+
+ export function isCellEmpty (id) {
+
+ if (document.getElementById(id).querySelector('.chess-piece')) {
+return true;
+ }
+
+  return false;
+}
+

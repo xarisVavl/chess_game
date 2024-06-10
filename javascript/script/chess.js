@@ -34,7 +34,7 @@ document.querySelectorAll('.js-cell').forEach((cell)=> {
 
       cell.addEventListener("dragover",((event) => {
             event.preventDefault();
-            event.target.id;
+    
       }));
 
 
