@@ -14,7 +14,7 @@ import {board } from "./board.js"
     if ( rowDiff <= 1 && colDiff <= 1) {
       return true;
     }
-    return false;
+else    return false;
   }
 },
 {
@@ -30,7 +30,7 @@ import {board } from "./board.js"
     if ( rowDiff === colDiff || start % 10 === end % 10 || Math.floor(start / 10) === Math.floor(end / 10)) {
       return true;
     }
-    return false;
+else    return false;
   }
   
 },
@@ -47,7 +47,7 @@ import {board } from "./board.js"
     if ((rowDiff === 2 && colDiff === 1) || (rowDiff === 1 && colDiff === 2)) {
       return true;
     }
-    return false;
+   else return false;
   }
   
 
@@ -65,7 +65,7 @@ import {board } from "./board.js"
     if ( rowDiff === colDiff) {
       return true;
     }
-    return false;
+  else  return false;
   }
 },
 {
@@ -83,7 +83,7 @@ import {board } from "./board.js"
    if ( startRow === endRow || startCol === endCol) {
     return true;
    }
-   return false;
+ else   return false;
   }
 
 },
@@ -97,7 +97,7 @@ import {board } from "./board.js"
     const diff = end - start;
     if ( diff ===10 || Math.floor(start / 10) === 2 && diff === 20) {
        return true;}
-       return false;
+   else     return false;
 
   }
 
@@ -116,7 +116,7 @@ import {board } from "./board.js"
     if ( rowDiff <= 1 && colDiff <= 1) {
       return true;
     }
-    return false;
+  else   return false;
   }
 },
 {
@@ -132,7 +132,7 @@ import {board } from "./board.js"
     if ( rowDiff === colDiff || start % 10 === end % 10 || Math.floor(start / 10) === Math.floor(end / 10)) {
       return true;
     }
-    return false;
+   else  return false;
   }
 },
 {
@@ -148,7 +148,7 @@ import {board } from "./board.js"
     if ((rowDiff === 2 && colDiff === 1) || (rowDiff === 1 && colDiff === 2)) {
       return true;
     }
-    return false;
+  else   return false;
   }
   
 
@@ -166,7 +166,7 @@ import {board } from "./board.js"
     if ( rowDiff === colDiff) {
       return true;
     }
-    return false;
+   else  return false;
   }
 },
 {
@@ -184,7 +184,7 @@ import {board } from "./board.js"
    if ( startRow === endRow || startCol === endCol) {
     return true;
    }
-   return false;
+   else return false;
   }
 
 },
@@ -198,7 +198,7 @@ import {board } from "./board.js"
     const diff = start -end;
     if ( diff ===10 || Math.floor(start / 10) === 7 && diff === 20) {
        return true;}
-       return false;
+     else  return false;
   }
 
 }
@@ -225,29 +225,43 @@ squares.forEach((cell)=> {
   
         cell.addEventListener("dragover", dragOver);
        
-        cell.addEventListener("dragleave",dragLeave);
         
-        // cell.addEventListener("dragenter",dragEnter);
         
-        cell.addEventListener("dragend",dragEnd);
+        
+      
+        
+      
+
+
   
         cell.addEventListener("drop",((event) => {
             let end = event.target.id;
+            console.log( " To telos" + end);
             let start =elementBeingDragged.dataset.piecePosition;
+     
+      
+            
               event.preventDefault(); 
   
-             
+            
+           
   
   pieceList.forEach((piece) => {
         if(piece.type === elementBeingDragged.dataset.pieceType) {
+
+        
               if ( piece.move(start,end) ) {
-                event.target.classList.add("highlight2");
-                 event.target.append(elementBeingDragged);
+                
+               
+                
+                
+                   event.target.append(elementBeingDragged);
                 elementBeingDragged.dataset.piecePosition=event.target.id;
                 console.log('drop allowed here' +event.target.id);
+              
                    
               }
-             else  event.target.classList.add("highlight");;
+ 
         }
         
   })
@@ -282,28 +296,20 @@ squares.forEach((cell)=> {
   function dragOver(event) {
     event.preventDefault();
      console.log("you are draging something over " +event.target.id + " cell");
-  }
+     let element= event.target;
+     if (element.classList.contains("chess-piece") && event.target.dataset.pieceColor !== elementBeingDragged.dataset.pieceColor)  {
+      element.remove();
+      console.log(element);
 
 
-  function dragEnter (event) {
-  
-    event.target.classList.add("highlight");
-    console.log("you are entering the space of " +event.target.id + " cell");
-  }
-
-  function dragLeave (event) {
-    console.log("you are leaving the space of " +event.target.id + " cell");
- 
-
+    }
   }
 
 
 
 
-  function dragEnd (event) {
-    console.log("The drag has ended in " +event.target.id + " cell");
-    event.target.classList.remove("highlight");
-    event.target.classList.remove("highlight2");
-  }
+
+
+
 
   
