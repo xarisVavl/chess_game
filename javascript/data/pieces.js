@@ -182,7 +182,7 @@ else    return false;
     const endCol = end % 10;
 
    if ( startRow === endRow || startCol === endCol) {
-    return true;
+  
    }
    else return false;
   }
@@ -197,6 +197,7 @@ else    return false;
   move: (start,end) => {
     const diff = start -end;
     if ( diff ===10 || Math.floor(start / 10) === 7 && diff === 20) {
+     
        return true;}
      else  return false;
   }
@@ -208,6 +209,10 @@ else    return false;
 
 
 let elementBeingDragged;
+ export function pathIsClear () {
+
+
+}
 
 export function MovePiece () {
   const squares= document.querySelectorAll('.js-cell');
@@ -224,10 +229,10 @@ export function MovePiece () {
 squares.forEach((cell)=> {
   
         cell.addEventListener("dragover", dragOver);
-       
+
         
         
-        
+
       
         
       
@@ -236,7 +241,7 @@ squares.forEach((cell)=> {
   
         cell.addEventListener("drop",((event) => {
             let end = event.target.id;
-            console.log( " To telos" + end);
+           
             let start =elementBeingDragged.dataset.piecePosition;
      
       
@@ -249,15 +254,18 @@ squares.forEach((cell)=> {
   pieceList.forEach((piece) => {
         if(piece.type === elementBeingDragged.dataset.pieceType) {
 
+
+
+          
         
-              if ( piece.move(start,end) ) {
+              if ( piece.move(start,end)  ) {
                 
-               
+          
                 
                 
                    event.target.append(elementBeingDragged);
-                elementBeingDragged.dataset.piecePosition=event.target.id;
-                console.log('drop allowed here' +event.target.id);
+                elementBeingDragged.dataset.piecePosition=event.target.id; ///na tsekarw edw-------------------------------
+              
               
                    
               }
@@ -295,14 +303,35 @@ squares.forEach((cell)=> {
 
   function dragOver(event) {
     event.preventDefault();
-     console.log("you are draging something over " +event.target.id + " cell");
+    let friendlyPiecePath;
+
+    pieceList.forEach((piece) => {
+
+      if(piece.type === elementBeingDragged.dataset.pieceType) {
+      
+       let start =elementBeingDragged.dataset.piecePosition
+       let end =event.target.dataset.piecePosition; ///// na tsekarw edw---------------------------------
+       if (!end) end =event.target.id;///// na tsekarw edw---------------------------------
+       console.log(end);
+            if ( piece.move(start,end) ) {
+
+
+   
      let element= event.target;
      if (element.classList.contains("chess-piece") && event.target.dataset.pieceColor !== elementBeingDragged.dataset.pieceColor)  {
       element.remove();
-      console.log(element);
+   
+  
+     }
 
-
+     }
     }
+
+  })
+
+
+
+
   }
 
 

@@ -27,7 +27,7 @@ export function generateBoard() {
         
         else {
               html+= ` <div class="cell js-cell" 
-              id= ${cell.position}>
+              id= ${cell.position} data-cell-position= "${cell.position}">
              
               </div>`;
             }

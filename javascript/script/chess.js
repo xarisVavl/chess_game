@@ -1,4 +1,4 @@
-import { pieceList, MovePiece } from "../data/pieces.js";
+import { pieceList, MovePiece, pathIsClear } from "../data/pieces.js";
 import {board, generateBoard, generatePieces} from "../data/board.js";
 
 
@@ -31,6 +31,6 @@ generatePieces();
 
 
 
+pathIsClear();
 
-
- MovePiece ()
+ MovePiece ();
