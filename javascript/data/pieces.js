@@ -125,7 +125,7 @@ else    return false;
   image: "images/svg/wq.svg",
   initialPosition:[84],
   quantity:1,
-  move: (start, end, pieces) => {
+  move: (start, end) => {
     const rowDiff = Math.abs(Math.floor(start / 10) - Math.floor(end / 10));
     const colDiff = Math.abs(start % 10 - end % 10);
 
@@ -209,73 +209,49 @@ else    return false;
 
 
 let elementBeingDragged;
- export function pathIsClear () {
-
-
-}
-
+let end;
+let start;
 export function MovePiece () {
   const squares= document.querySelectorAll('.js-cell');
+  const pieces =document.querySelectorAll('.chess-piece');
 
 
 
-  document.querySelectorAll('.chess-piece').forEach((piece)=> {
-        
+        pieces.forEach((piece)=> {
+
+          piece.addEventListener('dragstart', dragStart);
+
+          })
+
+      squares.forEach((cell)=> {
   
-    piece.addEventListener('dragstart', dragStart);
-
-})
-
-squares.forEach((cell)=> {
-  
-        cell.addEventListener("dragover", dragOver);
+          cell.addEventListener("dragover", dragOver);
 
         
-        
-
-      
-        
-      
-
-
   
         cell.addEventListener("drop",((event) => {
-            let end = event.target.id;
-           
-            let start =elementBeingDragged.dataset.piecePosition;
-     
-      
-            
+              end = event.target.id;
+              start =elementBeingDragged.dataset.piecePosition;
               event.preventDefault(); 
   
+      
+              pieceList.forEach((piece) => {
+                    if(piece.type === elementBeingDragged.dataset.pieceType) {
+                      
+                    
+                          if (piece.move(start,end)) {
+                            
+                              event.target.append(elementBeingDragged);
+                              elementBeingDragged.dataset.piecePosition=event.target.id; ///na tsekarw edw-------------------------------
+                          
+                          
+                              
+                          }
             
-           
-  
-  pieceList.forEach((piece) => {
-        if(piece.type === elementBeingDragged.dataset.pieceType) {
-
-
-
-          
+                    }
+                    
+              })
         
-              if ( piece.move(start,end)  ) {
-                
-          
-                
-                
-                   event.target.append(elementBeingDragged);
-                elementBeingDragged.dataset.piecePosition=event.target.id; ///na tsekarw edw-------------------------------
-              
-              
-                   
-              }
- 
-        }
-        
-  })
-        
-  
-  
          
         }));
   
@@ -298,47 +274,65 @@ squares.forEach((cell)=> {
   function dragStart(event) {
     elementBeingDragged = event.target;
     console.log('dragging has started with ' + elementBeingDragged.dataset.pieceType);
+
+   console.log( isClearPath(elementBeingDragged));
+
   }
 
 
   function dragOver(event) {
-    event.preventDefault();
-    let friendlyPiecePath;
-
-    pieceList.forEach((piece) => {
-
-      if(piece.type === elementBeingDragged.dataset.pieceType) {
-      
-       let start =elementBeingDragged.dataset.piecePosition
-       let end =event.target.dataset.piecePosition; ///// na tsekarw edw---------------------------------
-       if (!end) end =event.target.id;///// na tsekarw edw---------------------------------
-       console.log(end);
-            if ( piece.move(start,end) ) {
-
-
+        event.preventDefault();
    
-     let element= event.target;
-     if (element.classList.contains("chess-piece") && event.target.dataset.pieceColor !== elementBeingDragged.dataset.pieceColor)  {
-      element.remove();
-   
-  
-     }
-
-     }
-    }
-
-  })
 
 
+        pieceList.forEach((piece) => {
 
+          if(piece.type === elementBeingDragged.dataset.pieceType) {
+
+                  start =elementBeingDragged.dataset.piecePosition
+                  end =event.target.dataset.piecePosition; ///// na tsekarw edw---------------------------------
+                  // console.log(start);
+                   if (!end) end =event.target.id;///// na tsekarw edw---------------------------------
+          
+                  if ( piece.move(start,end) ) {
+                        console.log(end );
+                        let element= event.target;
+                        if (element.classList.contains("chess-piece") && event.target.dataset.pieceColor !== elementBeingDragged.dataset.pieceColor)  {
+                          element.remove();
+                      
+                      
+                              }
+                        }
+                  }
+            })
+        }
+
+
+
+
+
+export function isClearPath(elementBeingDragged) {
+
+  if(elementBeingDragged.dataset.piecePosition % 10 ===1 ) {
+              document.querySelectorAll('.chess-piece').forEach((piece) => {
+                  let position = piece.dataset.piecePosition;
+                  let color = piece.dataset.pieceColor;
+            if (position % 10 ===1 &&  color === elementBeingDragged.dataset.pieceColor && position > elementBeingDragged.dataset.piecePosition) {
+              console.log(piece.dataset.pieceType);
+
+              if( position - elementBeingDragged.dataset.piecePosition ===10) {
+                return false;
+              }
+              
+            }
+            
+              })
 
   }
 
+   return true;
 
-
-
-
-
+}
 
 
   
