@@ -207,7 +207,7 @@ else    return false;
 
 ]
 
-
+let barrier=100;
 let elementBeingDragged;
 let end;
 let start;
@@ -233,13 +233,15 @@ export function MovePiece () {
               end = event.target.id;
               start =elementBeingDragged.dataset.piecePosition;
               event.preventDefault(); 
-  
-      
+              const taken = event.target.classList.contains('chess-piece');
+
+              
               pieceList.forEach((piece) => {
+
                     if(piece.type === elementBeingDragged.dataset.pieceType ) {
                       
                     
-                          if (piece.move(start,end)) {
+                          if (piece.move(start,end) && !taken) {
                             
                               event.target.append(elementBeingDragged);
                               elementBeingDragged.dataset.piecePosition=event.target.id; ///na tsekarw edw-------------------------------
@@ -250,7 +252,8 @@ export function MovePiece () {
             
                     }
                     
-              })
+              });
+            
         
          
         }));
@@ -275,128 +278,127 @@ export function MovePiece () {
     elementBeingDragged = event.target;
     console.log('dragging has started with ' + elementBeingDragged.dataset.pieceType);
 
-   if ( isClearPath(elementBeingDragged) === 'false') {
-    event.preventDefault();
-   }
 
   }
 
 
-  function dragOver(event) {
-        event.preventDefault();
+ function dragOver(event) {
+    event.preventDefault();
+    
+    pieceList.forEach((piece) => {
+
+      if(piece.type === elementBeingDragged.dataset.pieceType) {
    
-
-
-        pieceList.forEach((piece) => {
-
-          if(piece.type === elementBeingDragged.dataset.pieceType) {
-
-                  start =elementBeingDragged.dataset.piecePosition
-                  end =event.target.dataset.piecePosition; ///// na tsekarw edw---------------------------------
-                  // console.log(start);
-                   if (!end) end =event.target.id;///// na tsekarw edw---------------------------------
+              start =elementBeingDragged.dataset.piecePosition
+              end =event.target.dataset.piecePosition; ///// na tsekarw edw---------------------------------
+              // console.log(start);
+               if (!end) end =event.target.id;///// na tsekarw edw---------------------------------
           
-                  if ( piece.move(start,end) ) {
-                        console.log(end );
-                        let element= event.target;
-                        if (element.classList.contains("chess-piece") && event.target.dataset.pieceColor !== elementBeingDragged.dataset.pieceColor)  {
-                          element.remove();
-                      
-                      
-                              }
-                        }
-                  }
-            })
-        }
+             
+        
+              if ( piece.move(start,end)  ) {
+                    console.log(end );
+                    let element= event.target;
+                    if (element.classList.contains("chess-piece") && element.dataset.pieceColor !== elementBeingDragged.dataset.pieceColor)  {
+                      element.remove();
+                  
+                  
+                          }
+                    }
+              }
+        })
+    }
+
+
 
 
 
 
 
 export function isClearPath(elementBeingDragged) {
-  let returnVal='true';
-  if  (elementBeingDragged.dataset.piecePosition %10 ===1 && (elementBeingDragged.dataset.pieceType.trim() === 'pawn' || elementBeingDragged.dataset.pieceType.trim() ==='rook')) {
-              document.querySelectorAll('.chess-piece').forEach((piece) => {
-                  let position = piece.dataset.piecePosition;
-                  let color = piece.dataset.pieceColor;
-if (elementBeingDragged.dataset.pieceColor.trim() === 'black' ) {
+//   let returnVal='true';
+//   if  (elementBeingDragged.dataset.piecePosition %10 ===1 && (elementBeingDragged.dataset.pieceType.trim() === 'pawn' || elementBeingDragged.dataset.pieceType.trim() ==='rook')) {
+//               document.querySelectorAll('.chess-piece').forEach((piece) => {
+//                   let position = piece.dataset.piecePosition;
+//                   let color = piece.dataset.pieceColor;
+// if (elementBeingDragged.dataset.pieceColor.trim() === 'black' ) {
 
 
-            if (position % 10 ===1 &&  color === elementBeingDragged.dataset.pieceColor && position > elementBeingDragged.dataset.piecePosition) {
-              // console.log(piece.dataset.pieceColor);
+//             if (position % 10 ===1 &&  color === elementBeingDragged.dataset.pieceColor && position > elementBeingDragged.dataset.piecePosition) {
+//               // console.log(piece.dataset.pieceColor);
 
-              if(  position - elementBeingDragged.dataset.piecePosition ===10) {
-                returnVal= 'false';
-              }
+//               if(  position - elementBeingDragged.dataset.piecePosition ===10) {
+//                 returnVal= 'false';
+//               }
               
-              else returnVal='true';
+//               else returnVal='true';
               
-            }
+//             }
 
             
 
-          }
-          else if (elementBeingDragged.dataset.pieceColor.trim() === 'white') {
+//           }
+//           else if (elementBeingDragged.dataset.pieceColor.trim() === 'white') {
     
-                 if (position % 10 ===1 &&  color === elementBeingDragged.dataset.pieceColor && position < elementBeingDragged.dataset.piecePosition) {
-              // console.log(piece.dataset.pieceColor);
-              console.log(elementBeingDragged.dataset.piecePosition % 10);
-              if(  Math.abs(position - elementBeingDragged.dataset.piecePosition) ===10) {
-                returnVal= 'false';
-              }
+//                  if (position % 10 ===1 &&  color === elementBeingDragged.dataset.pieceColor && position < elementBeingDragged.dataset.piecePosition) {
+//               // console.log(piece.dataset.pieceColor);
+//               console.log(elementBeingDragged.dataset.piecePosition % 10);
+//               if(  Math.abs(position - elementBeingDragged.dataset.piecePosition) ===10) {
+//                 returnVal= 'false';
+//               }
               
-              else returnVal='true';
+//               else returnVal='true';
               
-            }
-          }
+//             }
+//           }
             
-              })
+//               })
 
-  }
+//   }
 
-  else if  (elementBeingDragged.dataset.piecePosition %10 ===8 && (elementBeingDragged.dataset.pieceType.trim() === 'pawn' || elementBeingDragged.dataset.pieceType.trim() ==='rook')) {
-    document.querySelectorAll('.chess-piece').forEach((piece) => {
-        let position = piece.dataset.piecePosition;
-        let color = piece.dataset.pieceColor;
-if (elementBeingDragged.dataset.pieceColor.trim() === 'black') {
+//   else if  (elementBeingDragged.dataset.piecePosition %10 ===8 && (elementBeingDragged.dataset.pieceType.trim() === 'pawn' || elementBeingDragged.dataset.pieceType.trim() ==='rook')) {
+//     document.querySelectorAll('.chess-piece').forEach((piece) => {
+//         let position = piece.dataset.piecePosition;
+//         let color = piece.dataset.pieceColor;
+// if (elementBeingDragged.dataset.pieceColor.trim() === 'black') {
 
 
-  if (position % 10 ===8 &&  color === elementBeingDragged.dataset.pieceColor && position > elementBeingDragged.dataset.piecePosition) {
-    // console.log(piece.dataset.pieceColor);
+//   if (position % 10 ===8 &&  color === elementBeingDragged.dataset.pieceColor && position > elementBeingDragged.dataset.piecePosition) {
+//     // console.log(piece.dataset.pieceColor);
 
-    if(  position - elementBeingDragged.dataset.piecePosition ===10) {
-      returnVal= 'false';
-    }
+//     if(  position - elementBeingDragged.dataset.piecePosition ===10) {
+//       returnVal= 'false';
+//     }
     
-    else returnVal='true';
+//     else returnVal='true';
     
-  }
+//   }
 
   
 
-}
-else if (elementBeingDragged.dataset.pieceColor.trim() === 'white') {
+// }
+// else if (elementBeingDragged.dataset.pieceColor.trim() === 'white') {
 
-       if (position % 10 ===8 &&  color === elementBeingDragged.dataset.pieceColor && position < elementBeingDragged.dataset.piecePosition) {
-    // console.log(piece.dataset.pieceColor);
-    console.log(elementBeingDragged.dataset.piecePosition % 10);
-    if(  Math.abs(position - elementBeingDragged.dataset.piecePosition) ===10) {
-      returnVal= 'false';
-    }
+//        if (position % 10 ===8 &&  color === elementBeingDragged.dataset.pieceColor && position < elementBeingDragged.dataset.piecePosition) {
+//     // console.log(piece.dataset.pieceColor);
+//     console.log(elementBeingDragged.dataset.piecePosition % 10);
+//     if(  Math.abs(position - elementBeingDragged.dataset.piecePosition) ===10) {
+//       returnVal= 'false';
+//     }
     
-    else returnVal='true';
+//     else returnVal='true';
     
-  }
-}
+//   }
+// }
   
-    })
+//     })
 
-}
+// }
   
 
 
 
-   return returnVal;
+//    return returnVal;
 
 }
 
