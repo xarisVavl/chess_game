@@ -278,12 +278,13 @@ export function MovePiece () {
     elementBeingDragged = event.target;
     console.log('dragging has started with ' + elementBeingDragged.dataset.pieceType);
 
+    isClearPath(elementBeingDragged)
 
   }
 
 
  function dragOver(event) {
-    event.preventDefault();
+   
     
     pieceList.forEach((piece) => {
 
@@ -297,11 +298,11 @@ export function MovePiece () {
              
         
               if ( piece.move(start,end)  ) {
-                    console.log(end );
+                event.preventDefault();
                     let element= event.target;
                     if (element.classList.contains("chess-piece") && element.dataset.pieceColor !== elementBeingDragged.dataset.pieceColor)  {
                       element.remove();
-                  
+          
                   
                           }
                     }
@@ -400,8 +401,10 @@ export function isClearPath(elementBeingDragged) {
 
 //    return returnVal;
 
-}
 
+
+console.log(elementBeingDragged);
+}
 
 
 
